@@ -1,0 +1,8 @@
+browser->server: HTTP POST: https://studies.cs.helsinki.fi/exampleapp/new_note_spa
+note over browser:
+Browser sends json object with the 
+cintent and timestamp of the new note
+to the server. 
+Browser also re-renders the notes in the UI.
+end note
+server-->browser: 201 {"message":"note created"}

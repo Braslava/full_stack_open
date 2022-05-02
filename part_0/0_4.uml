@@ -1,0 +1,32 @@
+browser->server: HTTP POST request sends form data to the server via '/new_note'
+note over server:
+server creates a new Note object 
+and adds it to notes array
+end note
+server-->browser: 302 redirect
+note over browser:
+browser reloads the notes page and 
+causes 3 more GET requests
+end note
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/notes
+server-->browser: main.css
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.css
+server-->browser: main.css
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.js
+server-->browser: main.js
+
+
+
+note over browser:
+browser starts executing js-code
+that requests JSON data from server 
+end note
+
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/data.json
+server-->browser:[ {"content": "fetch(\"https://studies.cs.helsinki...]
+
+note over browser:
+browser executes the event handler
+that renders notes to display including
+the added note
+end note
