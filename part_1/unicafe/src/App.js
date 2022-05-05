@@ -44,14 +44,18 @@ function App() {
                     <p>{score}</p>
                 </div>
             </div>
-            <Statistics
-                good={good}
-                neutral={neutral}
-                bad={bad}
-                reviewCount={reviewCount}
-                average={average}
-                positiveProportion={positiveProportion}
-            />
+            {reviewCount > 0 ? (
+                <Statistics
+                    good={good}
+                    neutral={neutral}
+                    bad={bad}
+                    reviewCount={reviewCount}
+                    average={average}
+                    positiveProportion={positiveProportion}
+                />
+            ) : (
+                <p>No reviews yet</p>
+            )}
         </div>
     );
 }
