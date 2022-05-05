@@ -1,22 +1,34 @@
-import { useState } from "react";
-import "./index.css";
+import { useEffect, useState } from "react";
+import Statistics from "./components/Statistics.js";
 
 function App() {
     // save clicks of each button to its own state
     const [good, setGood] = useState(0);
     const [neutral, setNeutral] = useState(0);
     const [bad, setBad] = useState(0);
+    const [reviewCount, setReviewCount] = useState(0);
+    const [score, setScore] = useState(0);
+    const [average, setAverage] = useState(0);
+    const [positiveProportion, setPositiveProportion] = useState(0);
+
+    useEffect(() => {
+        setReviewCount((reviewCount) => reviewCount + 1);
+        setAverage(score / reviewCount);
+        setPositiveProportion((good / reviewCount) * 100);
+    }, [good, bad, neutral,score]);
 
     const handleGoodClick = () => {
-        setGood((prevGood) => prevGood + 1);
+        setGood((good) => good + 1);
+        setScore(score + 1);
     };
 
     const handleNeutralClick = () => {
-        setNeutral((prevNeutral) => prevNeutral + 1);
+        setNeutral((neutral) => neutral + 1);
     };
 
     const handleBadClick = () => {
-        setBad((prevBad) => prevBad + 1);
+        setBad((bad) => bad + 1);
+        setScore(score - 1);
     };
 
     return (
@@ -27,14 +39,17 @@ function App() {
                     <button onClick={handleGoodClick}>good</button>
                     <button onClick={handleNeutralClick}>neutral</button>
                     <button onClick={handleBadClick}>bad</button>
+                    <p>{score}</p>
                 </div>
             </div>
-            <div className="statistics">
-                <h2>Statistics</h2>
-                <p>Good {good}</p>
-                <p>Neutral {neutral}</p>
-                <p>Bad {bad}</p>
-            </div>
+            <Statistics
+                good={good}
+                neutral={neutral}
+                bad={bad}
+                reviewCount={reviewCount}
+                average={average}
+                positiveProportion={positiveProportion}
+            />
         </div>
     );
 }
