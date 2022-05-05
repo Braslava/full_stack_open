@@ -12,21 +12,23 @@ function App() {
     const [positiveProportion, setPositiveProportion] = useState(0);
 
     useEffect(() => {
-        setReviewCount((reviewCount) => reviewCount + 1);
         setAverage(score / reviewCount);
         setPositiveProportion((good / reviewCount) * 100);
-    }, [good, bad, neutral,score]);
+    }, [good, bad, neutral, score, reviewCount]);
 
     const handleGoodClick = () => {
+        setReviewCount((reviewCount) => reviewCount + 1);
         setGood((good) => good + 1);
         setScore(score + 1);
     };
 
     const handleNeutralClick = () => {
+        setReviewCount((reviewCount) => reviewCount + 1);
         setNeutral((neutral) => neutral + 1);
     };
 
     const handleBadClick = () => {
+        setReviewCount((reviewCount) => reviewCount + 1);
         setBad((bad) => bad + 1);
         setScore(score - 1);
     };
