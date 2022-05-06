@@ -1,16 +1,17 @@
+import StatisticsLine from "./StatisticsLine";
+
 function Statistics(props) {
-    // save clicks of each button to its own state
     const { good, neutral, bad, reviewCount, average, positiveProportion } =
         props;
     return (
         <div className="statistics">
             <h2>Statistics</h2>
-            <p>Good {good}</p>
-            <p>Neutral {neutral}</p>
-            <p>Bad {bad}</p>
-            <p>All {reviewCount}</p>
-            <p>Average {average}</p>
-            <p>Positive {positiveProportion}%</p>
+            <StatisticsLine text="good" value={good} />
+            <StatisticsLine text="neutral" value={neutral} />
+            <StatisticsLine text="bad" value={bad} />
+            <StatisticsLine text="all" value={reviewCount} />
+            <StatisticsLine text="average" value={average} />
+            <StatisticsLine text="positive" value={`${positiveProportion}%`} />
         </div>
     );
 }
