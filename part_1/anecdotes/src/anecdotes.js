@@ -8,4 +8,20 @@ const anecdotes = [
     "Programming without an extremely heavy use of console.log is same as if a doctor would refuse to use x-rays or blood tests when diagnosing patients",
 ];
 
+
+// function makeAnecdotesObjects(array) {
+//     const newArray = [];
+//     array.forEach((anecdote) => {
+//         const item = {
+//             anecdote: anecdote,
+//             points: 0,
+//         };
+//         newArray.push(item);
+//     });
+//     return newArray;
+// }
+
+// const newAnecdotes = makeAnecdotesObjects(anecdotes);
+// console.log(newAnecdotes);
+
 export default anecdotes;
