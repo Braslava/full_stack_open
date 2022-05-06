@@ -10,3 +10,7 @@ body {
 .App {
   padding: 2em;
 }
+
+.table {
+  text-align: left;
+}
