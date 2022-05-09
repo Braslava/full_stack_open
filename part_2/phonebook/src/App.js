@@ -9,6 +9,7 @@ const App = () => {
     const [newName, setNewName] = useState("");
     const [newPhone, setNewPhone] = useState("");
     const [searchTerm, setSearchTerm] = useState("");
+    const [notification, setNotification] = useState();
 
     useEffect(() => {
         personService.getAllPersons().then((response) => {
@@ -20,6 +21,13 @@ const App = () => {
     const clearFrom = () => {
         setNewName("");
         setNewPhone("");
+    };
+
+    const createNotification = (type, text) => {
+        setNotification({ type, text });
+        setTimeout(() => {
+            setNotification(null);
+        }, 5000);
     };
 
     const handleNameChange = (e) => setNewName(e.target.value);
@@ -39,14 +47,26 @@ const App = () => {
                 )
             ) {
                 const changedEntry = { ...oldPerson, phone: newPhone };
-                console.log(changedEntry);
-                personService.updatePerson(changedEntry.id, changedEntry);
-                setPersons(
-                    persons.map((person) =>
-                        person.id === changedEntry.id ? changedEntry : person
-                    )
-                );
-                clearFrom();
+                personService
+                    .updatePerson(changedEntry.id, changedEntry)
+                    .then((returnedPerson) => {
+                        setPersons(
+                            persons.map((person) =>
+                                person.id === returnedPerson.id
+                                    ? returnedPerson
+                                    : person
+                            )
+                        );
+                        clearFrom();
+                        createNotification(
+                            "success",
+                            `Phone of ${returnedPerson.name} successfully changed!`
+                        );
+                    })
+                    .catch((error) => {
+                        createNotification("error", error.message);
+                        console.log(error);
+                    });
                 return;
             }
         }
@@ -60,11 +80,17 @@ const App = () => {
         personService
             .createPerson(personObject)
             .then((serverResponse) => {
-                console.log(serverResponse);
                 setPersons(persons.concat(serverResponse));
                 clearFrom();
+                createNotification(
+                    "success",
+                    `${serverResponse.name} successfully added!`
+                );
             })
-            .catch((err) => console.log(err));
+            .catch((error) => {
+                createNotification("error", error.message);
+                console.log(error);
+            });
     };
 
     const handleSearchInput = (e) => {
@@ -73,7 +99,6 @@ const App = () => {
 
     const handleDeletePerson = (e) => {
         if (window.confirm("Are your sure you want to delete this contact?")) {
-            console.log("delete", e.target.id);
             const id = e.target.id;
             personService
                 .removePerson(id)
@@ -82,7 +107,10 @@ const App = () => {
                         persons.filter((person) => person.id.toString() !== id)
                     );
                 })
-                .catch((error) => console.log(error));
+                .catch((error) => {
+                    createNotification("error", error.message);
+                    console.log(error);
+                });
         }
     };
 
@@ -95,7 +123,12 @@ const App = () => {
     return (
         <div>
             <h1>Phonebook</h1>
-            <div>debug: {searchTerm}</div>
+            {notification && (
+                <p className={`notification--${notification.type}`}>
+                    {notification.text}
+                </p>
+            )}
+
             <Search handleSearchInput={handleSearchInput} />
             <h2>Add a new entry</h2>
             <AddEntryForm

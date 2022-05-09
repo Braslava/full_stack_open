@@ -16,3 +16,19 @@ margin: 10px 0;
 .delete-btn {
   margin-left: 5px;
 }
+
+.notification--error {
+  font-size: 1.3rem;
+  color: #a30c0c;
+  font-weight: 600;
+  padding: 10px;
+  border: 2px solid #a30c0c;
+}
+
+.notification--success {
+  font-size: 1.3rem;
+  color: #21b860;
+  font-weight: 600;
+  padding: 10px;
+  border: 2px solid #21b860;
+}

@@ -33,8 +33,7 @@ const removePerson = async (id) => {
 const updatePerson = async (id, newObject) => {
     try {
         const response = await axios.put(`${baseUrl}/${id}`, newObject);
-        console.log("put server", response);
-        return response;
+        return response.data;
     } catch (error) {
         console.log(error);
     }
