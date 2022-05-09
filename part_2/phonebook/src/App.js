@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import Person from "./components/Person";
 import Search from "./components/Search";
 import AddEntryForm from "./components/AddEntryFrom";
+import personService from "./services/persons";
 
 const App = () => {
     const [persons, setPersons] = useState([]);
@@ -10,32 +11,11 @@ const App = () => {
     const [newPhone, setNewPhone] = useState("");
     const [searchTerm, setSearchTerm] = useState("");
 
-    const getPersonsData = async () => {
-        try {
-            const response = await axios.get("http://localhost:3004/db");
-            setPersons(response.data.persons);
-            console.log(response.data);
-        } catch (error) {
-            console.log(error);
-        }
-    };
-
-    const addNewPerson = async (objectToPost) => {
-        try {
-            const response = await axios.post(
-                "http://localhost:3004/persons",
-                objectToPost
-            );
-            console.log(objectToPost);
-            console.log(response);
-            return response.data;
-        } catch (error) {
-            console.log(error);
-        }
-    };
-
     useEffect(() => {
-        getPersonsData();
+        personService.getAllPersons().then((response) => {
+            setPersons(response.data);
+            console.log(response.data);
+        });
     }, []);
 
     const handleNameChange = (e) => setNewName(e.target.value);
@@ -58,7 +38,7 @@ const App = () => {
             id: persons.length + 1,
         };
 
-        addNewPerson(personObject).then((serverResponse) => {
+        personService.createPerson(personObject).then((serverResponse) => {
             console.log(serverResponse);
             setPersons(persons.concat(serverResponse));
             setNewName("");
