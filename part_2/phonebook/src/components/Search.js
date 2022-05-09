@@ -1,7 +1,7 @@
 const Search = (props) => {
     return (
         <label htmlFor="search">
-            Search: <input onChange={props.filterPersons} type="search" />
+            Search: <input onChange={props.handleSearchInput} type="search" />
         </label>
     );
 };

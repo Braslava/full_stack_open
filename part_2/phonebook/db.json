@@ -1,54 +1,24 @@
 {
   "persons": [
     {
-      "name": "Arto Hellas",
-      "number": "040-123456",
-      "id": 1
-    },
-    {
       "name": "Ada Lovelace",
-      "number": "39-44-5323523",
+      "phone": "39-44-5323529",
       "id": 2
     },
     {
       "name": "Dan Abramov",
-      "number": "12-43-234345",
+      "phone": "62-43-234345",
       "id": 3
     },
     {
       "name": "Mary Poppendieck",
-      "number": "39-23-6423122",
+      "phone": "39-23-6423122",
       "id": 4
     },
     {
-      "name": "anne",
-      "phone": "134132",
-      "id": 5
-    },
-    {
-      "name": "Mara",
-      "phone": "234564326",
-      "id": 6
-    },
-    {
-      "name": "James",
-      "phone": "2135478",
-      "id": 7
-    },
-    {
-      "name": "Elizabeth",
-      "phone": "25646",
-      "id": 8
-    },
-    {
-      "name": "Juliet",
-      "phone": "26543",
-      "id": 9
-    },
-    {
-      "name": "Ada",
-      "phone": "26543",
-      "id": 10
+      "name": "Arvo Part",
+      "phone": "2354435",
+      "id": 1652104377770
     }
   ]
 }

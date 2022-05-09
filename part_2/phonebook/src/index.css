@@ -12,3 +12,7 @@ body {
 display: block;
 margin: 10px 0;
 }
+
+.delete-btn {
+  margin-left: 5px;
+}

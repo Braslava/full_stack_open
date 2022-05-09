@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useState, useEffect } from "react";
 import Person from "./components/Person";
 import Search from "./components/Search";
@@ -18,40 +17,78 @@ const App = () => {
         });
     }, []);
 
+    const clearFrom = () => {
+        setNewName("");
+        setNewPhone("");
+    };
+
     const handleNameChange = (e) => setNewName(e.target.value);
 
     const handlePhoneChange = (e) => setNewPhone(e.target.value);
 
     const handleAddEntry = (e) => {
         e.preventDefault();
-        if (
-            persons.filter(
-                (person) => person.name.toLowerCase() === newName.toLowerCase()
-            ).length > 0
-        ) {
-            alert(`${newName} is already in the phonebook!`);
-            return;
+        const oldPerson = persons.find(
+            (person) => person.name.toLowerCase() === newName.toLowerCase()
+        );
+        console.log(oldPerson);
+        if (oldPerson) {
+            if (
+                window.confirm(
+                    `Do you want to update the phone number of ${oldPerson.name}?`
+                )
+            ) {
+                const changedEntry = { ...oldPerson, phone: newPhone };
+                console.log(changedEntry);
+                personService.updatePerson(changedEntry.id, changedEntry);
+                setPersons(
+                    persons.map((person) =>
+                        person.id === changedEntry.id ? changedEntry : person
+                    )
+                );
+                clearFrom();
+                return;
+            }
         }
+
         const personObject = {
             name: newName,
             phone: newPhone,
-            id: persons.length + 1,
+            id: Date.now(),
         };
 
-        personService.createPerson(personObject).then((serverResponse) => {
-            console.log(serverResponse);
-            setPersons(persons.concat(serverResponse));
-            setNewName("");
-        });
+        personService
+            .createPerson(personObject)
+            .then((serverResponse) => {
+                console.log(serverResponse);
+                setPersons(persons.concat(serverResponse));
+                clearFrom();
+            })
+            .catch((err) => console.log(err));
     };
 
-    const filterPersons = (e) => {
+    const handleSearchInput = (e) => {
         setSearchTerm(e.target.value.toLowerCase());
+    };
+
+    const handleDeletePerson = (e) => {
+        if (window.confirm("Are your sure you want to delete this contact?")) {
+            console.log("delete", e.target.id);
+            const id = e.target.id;
+            personService
+                .removePerson(id)
+                .then(() => {
+                    setPersons(
+                        persons.filter((person) => person.id.toString() !== id)
+                    );
+                })
+                .catch((error) => console.log(error));
+        }
     };
 
     const personsToShow = searchTerm
         ? persons.filter((person) =>
-              person.name.toLocaleLowerCase().includes(searchTerm)
+              person.name.toLowerCase().includes(searchTerm)
           )
         : persons;
 
@@ -59,7 +96,7 @@ const App = () => {
         <div>
             <h1>Phonebook</h1>
             <div>debug: {searchTerm}</div>
-            <Search filterPersons={filterPersons} />
+            <Search handleSearchInput={handleSearchInput} />
             <h2>Add a new entry</h2>
             <AddEntryForm
                 newName={newName}
@@ -70,7 +107,11 @@ const App = () => {
             />
             <h2>Numbers</h2>
             {personsToShow.map((person) => (
-                <Person person={person} key={person.id} />
+                <Person
+                    person={person}
+                    key={person.id}
+                    handleDeletePerson={handleDeletePerson}
+                />
             ))}
         </div>
     );
