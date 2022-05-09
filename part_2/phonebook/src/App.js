@@ -12,15 +12,31 @@ const App = () => {
 
     const getPersonsData = async () => {
         try {
-            const response = await axios.get("http://localhost:3001/db");
+            const response = await axios.get("http://localhost:3004/db");
             setPersons(response.data.persons);
-            console.log(response.data)
+            console.log(response.data);
         } catch (error) {
             console.log(error);
         }
     };
 
-    useEffect(() => {getPersonsData()}, []);
+    const addNewPerson = async (objectToPost) => {
+        try {
+            const response = await axios.post(
+                "http://localhost:3004/persons",
+                objectToPost
+            );
+            console.log(objectToPost);
+            console.log(response);
+            return response.data;
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    useEffect(() => {
+        getPersonsData();
+    }, []);
 
     const handleNameChange = (e) => setNewName(e.target.value);
 
@@ -42,8 +58,11 @@ const App = () => {
             id: persons.length + 1,
         };
 
-        setPersons(persons.concat(personObject));
-        setNewName("");
+        addNewPerson(personObject).then((serverResponse) => {
+            console.log(serverResponse);
+            setPersons(persons.concat(serverResponse));
+            setNewName("");
+        });
     };
 
     const filterPersons = (e) => {
