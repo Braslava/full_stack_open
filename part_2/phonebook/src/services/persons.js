@@ -1,5 +1,7 @@
 import axios from "axios";
-const baseUrl = "http://localhost:3004/persons";
+//const baseUrl = "https://intense-basin-30125.herokuapp.com/api/persons";
+const baseUrl = "/api/persons";
+//const baseUrl = "http://localhost:3001/api/persons";
 
 const getAllPersons = async () => {
     try {
@@ -12,13 +14,19 @@ const getAllPersons = async () => {
 const createPerson = async (newObject) => {
     try {
         const response = await axios.post(baseUrl, newObject);
-        console.log(newObject);
-        console.log(response);
+       // console.log("new person", newObject);
+       // console.log("response", response.data);
         return response.data;
     } catch (error) {
         console.log(error);
     }
 };
+
+// const createPerson = (newObject) => {
+//     console.log(newObject);
+//     const request = axios.post(baseUrl, newObject);
+//     return request.then((response) => response.data);
+// };
 
 const removePerson = async (id) => {
     try {
@@ -33,6 +41,7 @@ const removePerson = async (id) => {
 const updatePerson = async (id, newObject) => {
     try {
         const response = await axios.put(`${baseUrl}/${id}`, newObject);
+        console.log("response data", response.data)
         return response.data;
     } catch (error) {
         console.log(error);

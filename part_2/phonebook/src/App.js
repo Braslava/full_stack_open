@@ -36,6 +36,7 @@ const App = () => {
 
     const handleAddEntry = (e) => {
         e.preventDefault();
+        console.log("new name", newName);
         const oldPerson = persons.find(
             (person) => person.name.toLowerCase() === newName.toLowerCase()
         );
@@ -46,10 +47,12 @@ const App = () => {
                     `Do you want to update the phone number of ${oldPerson.name}?`
                 )
             ) {
-                const changedEntry = { ...oldPerson, phone: newPhone };
+                const changedEntry = { ...oldPerson, number: newPhone };
+                console.log(changedEntry.id);
                 personService
                     .updatePerson(changedEntry.id, changedEntry)
                     .then((returnedPerson) => {
+                        console.log(returnedPerson)
                         setPersons(
                             persons.map((person) =>
                                 person.id === returnedPerson.id
@@ -73,7 +76,7 @@ const App = () => {
 
         const personObject = {
             name: newName,
-            phone: newPhone,
+            number: newPhone,
             id: Date.now(),
         };
 
