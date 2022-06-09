@@ -14,7 +14,7 @@ const App = () => {
     useEffect(() => {
         personService.getAllPersons().then((response) => {
             setPersons(response.data);
-            console.log(response.data);
+            // console.log(response.data);
         });
     }, []);
 
@@ -36,9 +36,9 @@ const App = () => {
 
     const handleAddEntry = (e) => {
         e.preventDefault();
-        console.log("new name", newName);
+        //console.log("new name", newName);
         const oldPerson = persons.find(
-            (person) => person.name.toLowerCase() === newName.toLowerCase()
+            (person) => person?.name.toLowerCase() === newName.toLowerCase()
         );
         console.log(oldPerson);
         if (oldPerson) {
@@ -48,11 +48,11 @@ const App = () => {
                 )
             ) {
                 const changedEntry = { ...oldPerson, number: newPhone };
-                console.log(changedEntry.id);
+                // console.log(changedEntry.id);
                 personService
                     .updatePerson(changedEntry.id, changedEntry)
                     .then((returnedPerson) => {
-                        console.log(returnedPerson)
+                        console.log(returnedPerson);
                         setPersons(
                             persons.map((person) =>
                                 person.id === returnedPerson.id
@@ -67,8 +67,8 @@ const App = () => {
                         );
                     })
                     .catch((error) => {
-                        createNotification("error", error.message);
-                        console.log(error);
+                        createNotification("error", error.response.data.error);
+                        console.log(error.response.data.error);
                     });
                 return;
             }
@@ -91,8 +91,8 @@ const App = () => {
                 );
             })
             .catch((error) => {
-                createNotification("error", error.message);
-                console.log(error);
+                createNotification("error", error.response.data.error);
+                console.log(error.response.data.error);
             });
     };
 

@@ -12,14 +12,14 @@ const getAllPersons = async () => {
 };
 
 const createPerson = async (newObject) => {
-    try {
+    //try {
         const response = await axios.post(baseUrl, newObject);
-       // console.log("new person", newObject);
-       // console.log("response", response.data);
+        // console.log("new person", newObject);
+        console.log("response", response.data);
         return response.data;
-    } catch (error) {
-        console.log(error);
-    }
+    // } catch (error) {
+    //     console.log(error);
+    // }
 };
 
 // const createPerson = (newObject) => {
@@ -31,7 +31,6 @@ const createPerson = async (newObject) => {
 const removePerson = async (id) => {
     try {
         const response = axios.delete(`${baseUrl}/${id}`);
-        console.log("delete server response", response);
         return response;
     } catch (err) {
         console.log(err);
@@ -39,13 +38,14 @@ const removePerson = async (id) => {
 };
 
 const updatePerson = async (id, newObject) => {
-    try {
+  //  try {
         const response = await axios.put(`${baseUrl}/${id}`, newObject);
-        console.log("response data", response.data)
+        console.log("response data", response.data);
         return response.data;
-    } catch (error) {
-        console.log(error);
-    }
+    // } catch (error) {
+    //     console.log(error);
+        
+    // }
 };
 
 const personService = {
